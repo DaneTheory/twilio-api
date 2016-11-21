@@ -1,0 +1,162 @@
+swagger: "2.0"
+info:
+  version: "0.1"
+  title: Twilio API Services
+# during dev, should point to your local machine
+host: 127.0.0.1:6003
+# basePath prefixes all resource paths 
+basePath: /api
+# schemes
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  #- https
+# security definitions
+securityDefinitions:
+  api_keyAuth:
+    type: apiKey
+    name: api_key
+    in: query 
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+
+  /notifications/sendText:
+    x-swagger-router-controller: TextNotificationController
+    post:
+      summary: Sends a text to a user
+      description: Accepts the user message. Returns the response.
+      operationId: sendText
+      tags:
+        - Notifications
+      parameters:
+        - name: message
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+        - name: phone
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success. 
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        500:
+          description: Failed to send. 
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /notifications/makeCall:
+    x-swagger-router-controller: CallNotificationController
+    post:
+      summary: Make a call to a user
+      description: Accepts the user message. Returns the response.
+      operationId: makeCall
+      tags:
+        - Notifications
+      parameters:
+        - name: message
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+        - name: phone
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success. 
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        500:
+          description: Failed to send. 
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /test/notifications/sendText:
+    x-swagger-router-controller: TestTextNotificationController
+    post:
+      summary: Test Api to sends a text to a user
+      description: Test Api which accepts the user message. Returns the response.
+      operationId: testSendText
+      tags:
+        - Test_Notifications
+      parameters:
+        - name: message
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+        - name: phone
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success. 
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        500:
+          description: Failed to send. 
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /test/notifications/makeCall:
+    x-swagger-router-controller: TestCallNotificationController
+    post:
+      summary: Test Api to make cal to a user
+      description: Test Api which accepts the user message. Returns the response.
+      operationId: testmakeText
+      tags:
+        - Test_Notifications
+      parameters:
+        - name: message
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+        - name: phone
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success. 
+          schema:
+            $ref: '#/definitions/SuccessResponse'
+        500:
+          description: Failed to send. 
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /swagger:
+    x-swagger-pipe: swagger_raw
+
+# complex objects have schema definitions
+definitions:
+
+  SuccessResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+        
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
